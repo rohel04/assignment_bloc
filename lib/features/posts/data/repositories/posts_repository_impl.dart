@@ -40,8 +40,13 @@ class PostRepositoryImp implements PostRepository {
   }
 
   @override
-  Future<Either<Failure, List<Comment>>> getPostComments(int id) {
-    // TODO: implement getPostComments
-    throw UnimplementedError();
+  Future<Either<Failure, List<Comments>>> getPostComments(int id) async {
+    try {
+      final failureOrComments =
+          await postRemoteDataSource.getPostCommentsData(id);
+      return Right(failureOrComments);
+    } on ServerException {
+      return Left(ServerFailure());
+    }
   }
 }

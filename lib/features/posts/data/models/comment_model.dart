@@ -1,6 +1,6 @@
 import 'package:assignment/features/posts/domain/entities/comment.dart';
 
-class CommentModel extends Comment {
+class CommentModel extends Comments {
   CommentModel(
       {required super.post_id,
       required super.id,

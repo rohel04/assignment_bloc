@@ -7,21 +7,21 @@ import 'package:equatable/equatable.dart';
 
 import '../repositories/posts_repository.dart';
 
-class GetPostComments implements UseCases<List<Comment>, Params> {
+class GetPostComments implements UseCases<List<Comments>, CommentParams> {
   final PostRepository postRepository;
 
   GetPostComments({required this.postRepository});
 
   @override
-  Future<Either<Failure, List<Comment>>> call(Params params) async {
+  Future<Either<Failure, List<Comments>>> call(CommentParams params) async {
     return await postRepository.getPostComments(params.id);
   }
 }
 
-class Params extends Equatable {
+class CommentParams extends Equatable {
   int id;
 
-  Params({required this.id});
+  CommentParams({required this.id});
 
   @override
   List<Object?> get props => [];

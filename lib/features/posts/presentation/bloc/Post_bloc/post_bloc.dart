@@ -1,11 +1,15 @@
+import 'package:assignment/core/errors/exception.dart';
 import 'package:assignment/core/usecases/usecase.dart';
 import 'package:assignment/features/posts/domain/entities/post.dart';
 import 'package:assignment/features/posts/domain/usecases/get_post_details.dart';
 import 'package:assignment/features/posts/domain/usecases/get_posts.dart';
+import 'package:assignment/features/posts/domain/usecases/get_posts_comments.dart';
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../../core/errors/failures.dart';
+import '../../../domain/entities/comment.dart';
 
 part 'post_event.dart';
 part 'post_state.dart';

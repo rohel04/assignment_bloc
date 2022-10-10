@@ -14,7 +14,7 @@ class PostPage extends StatefulWidget {
 
 class _PostPageState extends State<PostPage> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext buildcontext) {
     return Scaffold(
       appBar: AppBar(title: Text('All posts')),
       body: Container(
@@ -29,13 +29,15 @@ class _PostPageState extends State<PostPage> {
               itemBuilder: (context, index) {
                 Post post = state.posts[index];
                 return ListTile(
-                  onTap: () {
-                    Navigator.push(
+                  onTap: () async {
+                    await Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => PostDetailPage(
                                   id: post.id,
                                 )));
+
+                    buildcontext.read<PostBloc>().add(GetAllPostEvent());
                   },
                   title: Text('${post.title}'),
                 );
