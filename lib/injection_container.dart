@@ -3,6 +3,7 @@ import 'package:assignment/features/posts/data/datasources/post_local_datasource
 import 'package:assignment/features/posts/data/datasources/post_remote_datasource.dart';
 import 'package:assignment/features/posts/data/repositories/posts_repository_impl.dart';
 import 'package:assignment/features/posts/domain/repositories/posts_repository.dart';
+import 'package:assignment/features/posts/domain/usecases/add_post_comments.dart';
 import 'package:assignment/features/posts/domain/usecases/get_post_details.dart';
 import 'package:assignment/features/posts/domain/usecases/get_posts.dart';
 import 'package:assignment/features/posts/domain/usecases/get_posts_comments.dart';
@@ -18,16 +19,20 @@ Future<void> init() async {
   //Post Bloc
   sl.registerFactory<PostBloc>(() => PostBloc(allPosts: sl(), detail: sl()));
 
-  sl.registerFactory<CommentsBloc>(() => CommentsBloc(comments: sl()));
+  sl.registerFactory<CommentsBloc>(
+      () => CommentsBloc(comments: sl(), addcomment: sl()));
 
   //Post Usecase
   sl.registerLazySingleton(() => GetAllPosts(postRepository: sl()));
   sl.registerLazySingleton(() => GetPostDetails(postRepository: sl()));
   sl.registerLazySingleton(() => GetPostComments(postRepository: sl()));
+  sl.registerLazySingleton(() => AddPostComment(postRepository: sl()));
 
   //Post Repository
   sl.registerLazySingleton<PostRepository>(() => PostRepositoryImp(
-      postRemoteDataSource: sl(), localDataSource: sl(), networkInfo: sl()));
+      postRemoteDataSource: sl(),
+      postlocalDataSource: sl(),
+      networkInfo: sl()));
 
   //Data Sources
   sl.registerLazySingleton<PostRemoteDataSource>(

@@ -13,7 +13,16 @@ class GetCommentsEvent extends CommentsEvent {
 }
 
 class AddCommentEvent extends CommentsEvent {
-  final Comments comment;
+  int id;
+  int postId;
+  String name;
+  String email;
+  String body;
 
-  AddCommentEvent({required this.comment});
+  AddCommentEvent(
+      {required this.id,
+      required this.body,
+      required this.email,
+      required this.name,
+      required this.postId});
 }

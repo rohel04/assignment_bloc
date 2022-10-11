@@ -6,26 +6,38 @@ import 'package:assignment/features/posts/domain/entities/comment.dart';
 import 'package:assignment/core/errors/failures.dart';
 import 'package:assignment/features/posts/domain/repositories/posts_repository.dart';
 import 'package:dartz/dartz.dart';
-
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 import '../../../../core/errors/exception.dart';
 
 class PostRepositoryImp implements PostRepository {
   final PostRemoteDataSource postRemoteDataSource;
-  final PostLocalDataSource localDataSource;
+  final PostLocalDataSource postlocalDataSource;
   final NetworkInfo networkInfo;
 
   PostRepositoryImp(
       {required this.postRemoteDataSource,
-      required this.localDataSource,
+      required this.postlocalDataSource,
       required this.networkInfo});
 
   @override
   Future<Either<Failure, List<Post>>> getAllPosts() async {
     try {
-      final remotePost = await postRemoteDataSource.getAllPostData();
-      return Right(remotePost);
+      var dir = await getTemporaryDirectory();
+      String filename = 'postsData.json';
+      File file = File('${dir.path}/$filename');
+      if (file.existsSync()) {
+        final localpost = await postlocalDataSource.getAllPostFromLocal(file);
+        return Right(localpost);
+      } else {
+        final remotePost = await postRemoteDataSource.getAllPostData();
+        postlocalDataSource.cacheAllPostToLocal(remotePost, file);
+        return Right(remotePost);
+      }
     } on ServerException {
       return Left(ServerFailure());
+    } on CacheException {
+      return Left(CacheFailure());
     }
   }
 
@@ -45,6 +57,18 @@ class PostRepositoryImp implements PostRepository {
       final failureOrComments =
           await postRemoteDataSource.getPostCommentsData(id);
       return Right(failureOrComments);
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Comments>> addPostComments(
+      int id, int postId, String name, String email, String body) async {
+    try {
+      final failureOrComment = await postRemoteDataSource.addPostComments(
+          id, postId, name, email, body);
+      return Right(failureOrComment);
     } on ServerException {
       return Left(ServerFailure());
     }

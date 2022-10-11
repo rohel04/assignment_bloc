@@ -7,4 +7,6 @@ abstract class PostRepository {
   Future<Either<Failure, List<Post>>> getAllPosts();
   Future<Either<Failure, Post>> getPostDetail(int id);
   Future<Either<Failure, List<Comments>>> getPostComments(int id);
+  Future<Either<Failure, Comments>> addPostComments(
+      int id, int postId, String name, String email, String body);
 }

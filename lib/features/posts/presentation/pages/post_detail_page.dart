@@ -62,15 +62,12 @@ class _PostDetailPageState extends State<PostDetailPage> {
             ),
             ElevatedButton(
                 onPressed: () {
-                  Comments new_comment = Comments(
-                      post_id: 1,
-                      id: 202,
-                      name: 'Rohel',
-                      email: 'r@ghj.cm',
-                      body: _textController.text);
-                  context
-                      .read<CommentsBloc>()
-                      .add(AddCommentEvent(comment: new_comment));
+                  context.read<CommentsBloc>().add(AddCommentEvent(
+                      id: 101,
+                      postId: 101,
+                      name: "Rohel",
+                      email: "rohelshk@gmail.com",
+                      body: _textController.text));
                 },
                 child: Text('Add comment'))
           ],
