@@ -17,8 +17,8 @@ class CommentsLoaded extends CommentsState {
   CommentsLoaded({required this.comments});
 }
 
-class Error extends CommentsState {
+class CommentError extends CommentsState {
   final String message;
 
-  Error({required this.message});
+  CommentError({required this.message});
 }

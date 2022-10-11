@@ -22,22 +22,24 @@ class PostRepositoryImp implements PostRepository {
 
   @override
   Future<Either<Failure, List<Post>>> getAllPosts() async {
-    try {
-      var dir = await getTemporaryDirectory();
-      String filename = 'postsData.json';
-      File file = File('${dir.path}/$filename');
-      if (file.existsSync()) {
-        final localpost = await postlocalDataSource.getAllPostFromLocal(file);
-        return Right(localpost);
-      } else {
+    var dir = await getTemporaryDirectory();
+    String filename = 'postsData.json';
+    File file = File('${dir.path}/$filename');
+    if (await networkInfo.isConnected) {
+      try {
         final remotePost = await postRemoteDataSource.getAllPostData();
         postlocalDataSource.cacheAllPostToLocal(remotePost, file);
         return Right(remotePost);
+      } on ServerException {
+        return Left(ServerFailure());
       }
-    } on ServerException {
-      return Left(ServerFailure());
-    } on CacheException {
-      return Left(CacheFailure());
+    } else {
+      try {
+        final localpost = await postlocalDataSource.getAllPostFromLocal(file);
+        return Right(localpost);
+      } on CacheException {
+        return Left(CacheFailure());
+      }
     }
   }
 
@@ -47,6 +49,8 @@ class PostRepositoryImp implements PostRepository {
       final post = await postRemoteDataSource.getPostDetailData(id);
       return Right(post);
     } on ServerException {
+      return Left(ServerFailure());
+    } on SocketException {
       return Left(ServerFailure());
     }
   }
@@ -58,6 +62,8 @@ class PostRepositoryImp implements PostRepository {
           await postRemoteDataSource.getPostCommentsData(id);
       return Right(failureOrComments);
     } on ServerException {
+      return Left(ServerFailure());
+    } on SocketException {
       return Left(ServerFailure());
     }
   }

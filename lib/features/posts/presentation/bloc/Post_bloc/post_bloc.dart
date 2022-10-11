@@ -33,8 +33,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     emit(Loading());
     final failureOrpost = await getAllPosts.call(NoParams());
     await failureOrpost.fold(
-        (failure) async =>
-            failure is ServerFailure ? 'Server Failure' : 'Cache Failure',
+        (failure) async => emit(ErrorState(
+            message:
+                failure is ServerFailure ? 'Server Failure' : 'Cache Failure')),
         (posts) async => emit(PostLoaded(posts: posts)));
   }
 
@@ -44,8 +45,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     emit(Loading());
     final failureOrpost = await getPostDetails.call(Params(id: id));
     failureOrpost.fold(
-        (failure) =>
-            failure is ServerFailure ? 'Server Failure' : 'Cache Failure',
+        (failure) => emit(ErrorState(
+            message:
+                failure is ServerFailure ? 'Server Failure' : 'Cache Failure')),
         (post) => emit(PostDetailLoaded(post: post)));
   }
 }

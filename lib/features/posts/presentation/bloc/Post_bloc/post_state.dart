@@ -23,8 +23,8 @@ class PostDetailLoaded extends PostState {
   PostDetailLoaded({required this.post});
 }
 
-class Error extends PostState {
+class ErrorState extends PostState {
   final String message;
 
-  Error({required this.message});
+  ErrorState({required this.message});
 }

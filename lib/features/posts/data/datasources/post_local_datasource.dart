@@ -21,9 +21,9 @@ class PostLocalDataSourceimpl implements PostLocalDataSource {
   @override
   Future<List<PostModel>> getAllPostFromLocal(File file) async {
     List<PostModel> posts = [];
-    var jsonData = await file.readAsStringSync();
     // ignore: unnecessary_null_comparison
-    if (jsonData != null) {
+    if (file.existsSync()) {
+      var jsonData = await file.readAsStringSync();
       List data = jsonDecode(jsonData);
       data.forEach((element) {
         posts.add(PostModel.fromJson(element));

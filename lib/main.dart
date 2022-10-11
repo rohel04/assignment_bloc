@@ -24,6 +24,24 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => sl<CommentsBloc>()),
       ],
       child: MaterialApp(
+        theme: ThemeData(
+            textTheme: TextTheme(
+                headline1: TextStyle(
+                    fontSize: 25,
+                    color: Color(0xFF363f93),
+                    fontWeight: FontWeight.bold),
+                headline2: TextStyle(
+                    fontFamily: 'Dosis',
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+                headline3: TextStyle(
+                    fontFamily: 'Dosis',
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+                bodyText1: TextStyle(
+                    fontFamily: 'Dosis', fontSize: 12, color: Colors.white))),
         home: PostPage(),
       ),
     );

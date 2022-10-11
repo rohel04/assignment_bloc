@@ -30,7 +30,7 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
     emit(CommentLoading());
     final failureOrComments = await getPostComments.call(CommentParams(id: id));
     failureOrComments.fold(
-        (failure) => emit(Error(
+        (failure) => emit(CommentError(
             message:
                 failure is ServerFailure ? 'Server Failure' : 'Cache Failure')),
         (comments) => emit(CommentsLoaded(comments: comments)));
@@ -46,7 +46,7 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
           name: event.name,
           post_id: event.postId));
       print(failureOrComment);
-      failureOrComment.fold((failure) => Error(message: "Server Error"),
+      failureOrComment.fold((failure) => CommentError(message: "Server Error"),
           (comment) {
         emit(CommentsLoaded(comments: List.from(state.comments)..add(comment)));
       });
