@@ -108,8 +108,10 @@ class _PostPageState extends State<PostPage> {
                     );
                   },
                 );
+              } else if (state is ErrorState) {
+                return Text('${state.message}');
               } else {
-                return Text('Try again');
+                return Text('Something went wrong');
               }
             }),
           ),

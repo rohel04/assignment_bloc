@@ -25,8 +25,10 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
     on<CommentsEvent>((event, emit) {
       // TODO: implement event handler
     });
-    on<GetCommentsEvent>((event, emit) async => _getPostComments(event, emit));
-    on<AddCommentEvent>(((event, emit) async => _addComment(event, emit)));
+    on<GetCommentsEvent>(
+        (event, emit) async => await _getPostComments(event, emit));
+    on<AddCommentEvent>(
+        ((event, emit) async => await _addComment(event, emit)));
   }
   Future<void> _getPostComments(
       GetCommentsEvent event, Emitter<CommentsState> emit) async {
@@ -40,10 +42,11 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
         (comments) => emit(CommentsLoaded(comments: comments)));
   }
 
-  void _addComment(AddCommentEvent event, Emitter<CommentsState> emit) async {
+  Future<void> _addComment(
+      AddCommentEvent event, Emitter<CommentsState> emit) async {
     final state = this.state;
     if (state is CommentsLoaded) {
-      final validate_comment = commentValidator.inputEmptyChecker(event.body);
+      // final validate_comment = commentValidator.inputEmptyChecker(event.body);
       // validate_comment
       //     .fold((failure) => emit(CommentError(message: 'Comment is empty!!')),
       //         (bool_val) async {};
