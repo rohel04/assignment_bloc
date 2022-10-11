@@ -70,6 +70,7 @@ class _PostPageState extends State<PostPage> {
                 );
               } else if (state is PostLoaded) {
                 return ListView.builder(
+                  physics: BouncingScrollPhysics(),
                   itemCount: state.posts.length,
                   itemBuilder: (context, index) {
                     Post post = state.posts[index];

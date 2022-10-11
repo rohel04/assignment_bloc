@@ -1,4 +1,5 @@
 import 'package:assignment/core/platform/network_info.dart';
+import 'package:assignment/core/util/comment_validator.dart';
 import 'package:assignment/features/posts/data/datasources/post_local_datasource.dart';
 import 'package:assignment/features/posts/data/datasources/post_remote_datasource.dart';
 import 'package:assignment/features/posts/data/repositories/posts_repository_impl.dart';
@@ -19,8 +20,8 @@ Future<void> init() async {
   //Post Bloc
   sl.registerFactory<PostBloc>(() => PostBloc(allPosts: sl(), detail: sl()));
 
-  sl.registerFactory<CommentsBloc>(
-      () => CommentsBloc(comments: sl(), addcomment: sl()));
+  sl.registerFactory<CommentsBloc>(() =>
+      CommentsBloc(comments: sl(), addcomment: sl(), commentValidator: sl()));
 
   //Post Usecase
   sl.registerLazySingleton(() => GetAllPosts(postRepository: sl()));
@@ -43,6 +44,7 @@ Future<void> init() async {
   //core
   sl.registerLazySingleton<NetworkInfo>(
       () => NetworkInfoImp(internetConnectionChecker: sl()));
+  sl.registerLazySingleton(() => CommentValidator());
 
   //External
   sl.registerLazySingleton(() => http.Client());

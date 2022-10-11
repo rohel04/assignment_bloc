@@ -22,3 +22,5 @@ class CommentError extends CommentsState {
 
   CommentError({required this.message});
 }
+
+class CommentInputError extends CommentsState {}

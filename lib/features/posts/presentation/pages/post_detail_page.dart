@@ -27,6 +27,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
     final _textController = TextEditingController();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0.0,

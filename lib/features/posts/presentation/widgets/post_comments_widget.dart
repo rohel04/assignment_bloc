@@ -14,7 +14,9 @@ class PostCommentWidget extends StatefulWidget {
 class _PostCommentWidgetState extends State<PostCommentWidget> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(child: BlocBuilder<CommentsBloc, CommentsState>(
+    return Expanded(
+        child: BlocConsumer<CommentsBloc, CommentsState>(
+      listener: (context, state) {},
       builder: ((context, state) {
         if (state is CommentLoading) {
           return Center(
@@ -22,6 +24,8 @@ class _PostCommentWidgetState extends State<PostCommentWidget> {
           );
         } else if (state is CommentsLoaded) {
           return ListView.builder(
+              physics: BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
               itemCount: state.comments.length,
               itemBuilder: (context, index) {
                 Comments comments = state.comments[index];

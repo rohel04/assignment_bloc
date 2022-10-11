@@ -1,3 +1,4 @@
+import 'package:assignment/core/util/comment_validator.dart';
 import 'package:assignment/features/posts/domain/usecases/add_post_comments.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -12,9 +13,12 @@ part 'comments_state.dart';
 class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
   final GetPostComments getPostComments;
   final AddPostComment addPostComment;
+  final CommentValidator commentValidator;
 
   CommentsBloc(
-      {required GetPostComments comments, required AddPostComment addcomment})
+      {required this.commentValidator,
+      required GetPostComments comments,
+      required AddPostComment addcomment})
       : getPostComments = comments,
         addPostComment = addcomment,
         super(CommentsInitial()) {
@@ -39,6 +43,10 @@ class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
   void _addComment(AddCommentEvent event, Emitter<CommentsState> emit) async {
     final state = this.state;
     if (state is CommentsLoaded) {
+      final validate_comment = commentValidator.inputEmptyChecker(event.body);
+      // validate_comment
+      //     .fold((failure) => emit(CommentError(message: 'Comment is empty!!')),
+      //         (bool_val) async {};
       final failureOrComment = await addPostComment.call(addCommentParams(
           id: event.id,
           email: event.email,
