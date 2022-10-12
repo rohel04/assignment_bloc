@@ -1,18 +1,18 @@
 import 'package:assignment/features/posts/presentation/bloc/Post_bloc/post_bloc.dart';
 import 'package:assignment/features/posts/presentation/pages/post_detail_page.dart';
+import 'package:assignment/features/users/presentation/bloc/user_bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../domain/entities/user.dart';
 
-import '../../domain/entities/post.dart';
-
-class PostPage extends StatefulWidget {
-  const PostPage({super.key});
+class UserPage extends StatefulWidget {
+  const UserPage({super.key});
 
   @override
-  State<PostPage> createState() => _PostPageState();
+  State<UserPage> createState() => _UserPageState();
 }
 
-class _PostPageState extends State<PostPage> {
+class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext buildcontext) {
     return SafeArea(
@@ -52,7 +52,7 @@ class _PostPageState extends State<PostPage> {
                 left: 20,
                 child: Center(
                   child: Text(
-                    'All Posts',
+                    'All Users',
                     style: TextStyle(
                         fontSize: 25,
                         color: Color(0xFF363f93),
@@ -62,27 +62,27 @@ class _PostPageState extends State<PostPage> {
           ]),
         ),
         Expanded(
-          child: BlocBuilder<PostBloc, PostState>(builder: (context, state) {
-            if (state is Loading) {
+          child: BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+            if (state is UserLoading) {
               return Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (state is PostLoaded) {
+            } else if (state is UserLoaded) {
               return ListView.builder(
                 physics: BouncingScrollPhysics(),
-                itemCount: state.posts.length,
+                itemCount: state.users.length,
                 itemBuilder: (context, index) {
-                  Post post = state.posts[index];
+                  User user = state.users[index];
                   return InkWell(
                     onTap: () async {
-                      await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PostDetailPage(
-                                    id: post.id,
-                                  )));
+                      // await Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => PostDetailPage(
+                      //               id: post.id,
+                      //             )));
 
-                      buildcontext.read<PostBloc>().add(GetAllPostEvent());
+                      // buildcontext.read<PostBloc>().add(GetAllPostEvent());
                     },
                     child: Container(
                       margin: EdgeInsets.fromLTRB(5, 10, 5, 10),
@@ -95,22 +95,26 @@ class _PostPageState extends State<PostPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('${post.title}',
+                          Text('${user.name}',
                               style: Theme.of(context).textTheme.headline3),
                           SizedBox(height: 10),
-                          Text('${post.body}',
-                              maxLines: 2,
-                              style: Theme.of(context).textTheme.bodyText1)
+                          Text('${user.email}',
+                              style: Theme.of(context).textTheme.bodyText1),
+                          Text(
+                              "${user.address['street']},${user.address['city']}",
+                              style: Theme.of(context).textTheme.bodyText1),
+                          Text('${user.phone}',
+                              style: Theme.of(context).textTheme.bodyText1),
                         ],
                       ),
                     ),
                   );
                 },
               );
-            } else if (state is ErrorState) {
+            } else if (state is UserError) {
               return Text('${state.message}');
             } else {
-              return Text('Something went wrong');
+              return Text('Hold on');
             }
           }),
         ),

@@ -1,8 +1,10 @@
+import 'package:assignment/core/home.dart';
 import 'package:assignment/features/posts/presentation/bloc/Post_bloc/post_bloc.dart';
 import 'package:assignment/features/posts/presentation/pages/post_page.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment/injection_container.dart' as di;
 import 'features/posts/presentation/bloc/comments_bloc/comments_bloc.dart';
+import 'features/users/presentation/bloc/user_bloc/user_bloc.dart';
 import 'injection_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,6 +24,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context) => sl<PostBloc>()..add(GetAllPostEvent())),
         BlocProvider(create: (context) => sl<CommentsBloc>()),
+        BlocProvider(
+            create: (context) => sl<UserBloc>()..add(GetAllUserEvent())),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -42,7 +46,7 @@ class MyApp extends StatelessWidget {
                     color: Colors.white),
                 bodyText1: TextStyle(
                     fontFamily: 'Dosis', fontSize: 12, color: Colors.white))),
-        home: PostPage(),
+        home: Home(),
       ),
     );
   }

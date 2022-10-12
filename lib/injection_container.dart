@@ -10,6 +10,11 @@ import 'package:assignment/features/posts/domain/usecases/get_posts.dart';
 import 'package:assignment/features/posts/domain/usecases/get_posts_comments.dart';
 import 'package:assignment/features/posts/presentation/bloc/Post_bloc/post_bloc.dart';
 import 'package:assignment/features/posts/presentation/bloc/comments_bloc/comments_bloc.dart';
+import 'package:assignment/features/users/data/datasources/user_remote_datasource.dart';
+import 'package:assignment/features/users/data/repositories/user_repository_impl.dart';
+import 'package:assignment/features/users/domain/repositories/user_repositories.dart';
+import 'package:assignment/features/users/domain/usecases/get_all_users.dart';
+import 'package:assignment/features/users/presentation/bloc/user_bloc/user_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -35,11 +40,25 @@ Future<void> init() async {
       postlocalDataSource: sl(),
       networkInfo: sl()));
 
-  //Data Sources
+  //post Data Sources
   sl.registerLazySingleton<PostRemoteDataSource>(
       () => PostRemoteDataSourceImp(client: sl()));
   sl.registerLazySingleton<PostLocalDataSource>(
       () => PostLocalDataSourceimpl());
+
+  //user Bloc
+  sl.registerFactory<UserBloc>(() => UserBloc(allUsers: sl()));
+
+  //User Usecase
+  sl.registerLazySingleton(() => GetAllUsers(userRepository: sl()));
+
+  //User Repository
+  sl.registerLazySingleton<UserRepository>(
+      () => UserRepositoryImpl(userRemoteDataSource: sl(), networkInfo: sl()));
+
+//User datasources
+  sl.registerLazySingleton<UserRemoteDataSource>(
+      () => UserRemoteDataSourceImp(client: sl()));
 
   //core
   sl.registerLazySingleton<NetworkInfo>(
