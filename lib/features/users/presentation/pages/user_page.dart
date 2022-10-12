@@ -1,6 +1,7 @@
 import 'package:assignment/features/posts/presentation/bloc/Post_bloc/post_bloc.dart';
 import 'package:assignment/features/posts/presentation/pages/post_detail_page.dart';
 import 'package:assignment/features/users/presentation/bloc/user_bloc/user_bloc.dart';
+import 'package:assignment/features/users/presentation/pages/user_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/entities/user.dart';
@@ -75,14 +76,14 @@ class _UserPageState extends State<UserPage> {
                   User user = state.users[index];
                   return InkWell(
                     onTap: () async {
-                      // await Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => PostDetailPage(
-                      //               id: post.id,
-                      //             )));
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UserHomePage(
+                                    id: user.id,
+                                  )));
 
-                      // buildcontext.read<PostBloc>().add(GetAllPostEvent());
+                      buildcontext.read<UserBloc>().add(GetAllUserEvent());
                     },
                     child: Container(
                       margin: EdgeInsets.fromLTRB(5, 10, 5, 10),
