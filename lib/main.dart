@@ -1,4 +1,4 @@
-import 'package:assignment/core/home.dart';
+import 'package:assignment/home.dart';
 import 'package:assignment/features/posts/presentation/bloc/Post_bloc/post_bloc.dart';
 import 'package:assignment/features/posts/presentation/pages/post_page.dart';
 import 'package:flutter/material.dart';
