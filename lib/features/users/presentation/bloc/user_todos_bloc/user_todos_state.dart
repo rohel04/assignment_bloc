@@ -15,6 +15,8 @@ class UserTodosLoaded extends UserTodosState {
   final List<Todo> todos;
 
   UserTodosLoaded({required this.todos});
+  @override
+  List<Object> get props => [todos];
 }
 
 class UserTodosError extends UserTodosState {

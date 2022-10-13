@@ -1,6 +1,6 @@
-import 'package:assignment/features/users/presentation/widgets/userhome/userhome_albums.dart';
-import 'package:assignment/features/users/presentation/widgets/userhome/userhome_posts.dart';
-import 'package:assignment/features/users/presentation/widgets/userhome/userhome_todos.dart';
+import 'package:assignment/features/users/presentation/pages/user_home_albums.dart';
+import 'package:assignment/features/users/presentation/pages/user_home_posts.dart';
+import 'package:assignment/features/users/presentation/pages/user_home_todos.dart';
 import 'package:flutter/material.dart';
 
 class UserHomePage extends StatefulWidget {

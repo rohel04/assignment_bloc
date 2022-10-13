@@ -8,7 +8,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../injection_container.dart';
-import '../../../../posts/domain/entities/post.dart';
+import '../../../posts/domain/entities/post.dart';
+
 
 class UserPostsWidget extends StatefulWidget {
   int id;

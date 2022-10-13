@@ -1,3 +1,4 @@
+import 'package:assignment/features/users/presentation/bloc/user_albums_bloc/user_albums_bloc.dart';
 import 'package:assignment/features/users/presentation/bloc/user_todos_bloc/user_todos_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,38 +6,39 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../domain/entities/todo.dart';
 
-class UserTodo extends StatefulWidget {
+import '../../domain/entities/album.dart';
+
+class UserAlbums extends StatefulWidget {
   int id;
-  UserTodo({super.key, required this.id});
+  UserAlbums({super.key, required this.id});
 
   @override
-  State<UserTodo> createState() => _UserTodoState();
+  State<UserAlbums> createState() => _UserAlbumsState();
 }
 
-class _UserTodoState extends State<UserTodo> {
+class _UserAlbumsState extends State<UserAlbums> {
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<UserTodosBloc>().add(GetUserTodosEvent(id: widget.id));
+    context.read<UserAlbumsBloc>().add(GetUserAlbumsEvent(id: widget.id));
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(child:
-        BlocBuilder<UserTodosBloc, UserTodosState>(builder: (context, state) {
-      if (state is UserTodosLoading) {
+        BlocBuilder<UserAlbumsBloc, UserAlbumsState>(builder: (context, state) {
+      if (state is UserAlbumsLoading) {
         return Center(
           child: CircularProgressIndicator(),
         );
-      } else if (state is UserTodosLoaded) {
+      } else if (state is UserAlbumsLoaded) {
         return ListView.builder(
             padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-            itemCount: state.todos.length,
+            itemCount: state.albums.length,
             itemBuilder: (context, index) {
-              Todo todo = state.todos[index];
+              Album album = state.albums[index];
               return Container(
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 margin: EdgeInsets.fromLTRB(5, 10, 5, 10),
@@ -45,17 +47,11 @@ class _UserTodoState extends State<UserTodo> {
                     borderRadius:
                         BorderRadius.only(bottomLeft: Radius.circular(50))),
                 child: ListTile(
-                  trailing: Checkbox(
-                    activeColor: Colors.white,
-                    checkColor: Colors.black,
-                    value: todo.completed,
-                    onChanged: (bool? value) {},
-                  ),
-                  contentPadding: EdgeInsets.all(0),
+                  contentPadding: EdgeInsets.all(10),
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('${todo.title}',
+                      Text('${album.title}',
                           style: Theme.of(context).textTheme.headline3),
                       SizedBox(height: 5)
                     ],
