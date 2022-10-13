@@ -6,3 +6,9 @@ abstract class UserAlbumsEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class GetUserAlbumsEvent extends UserAlbumsEvent {
+  int id;
+
+  GetUserAlbumsEvent({required this.id});
+}

@@ -15,12 +15,16 @@ import 'package:assignment/features/users/data/repositories/user_repository_impl
 import 'package:assignment/features/users/domain/repositories/user_repositories.dart';
 import 'package:assignment/features/users/domain/usecases/get_all_users.dart';
 import 'package:assignment/features/users/domain/usecases/get_user_posts.dart';
+import 'package:assignment/features/users/presentation/bloc/user_albums_bloc/user_albums_bloc.dart';
 import 'package:assignment/features/users/presentation/bloc/user_bloc/user_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
+import 'features/users/domain/usecases/get_user_album.dart';
+import 'features/users/domain/usecases/get_user_todos.dart';
 import 'features/users/presentation/bloc/user_posts_bloc/user_posts_bloc.dart';
+import 'features/users/presentation/bloc/user_todos_bloc/user_todos_bloc.dart';
 
 GetIt sl = GetIt.instance;
 
@@ -52,10 +56,14 @@ Future<void> init() async {
   //user Bloc
   sl.registerFactory<UserBloc>(() => UserBloc(allUsers: sl()));
   sl.registerFactory<UserPostsBloc>(() => UserPostsBloc(userPosts: sl()));
+  sl.registerFactory<UserTodosBloc>(() => UserTodosBloc(userTodos: sl()));
+  sl.registerFactory<UserAlbumsBloc>(() => UserAlbumsBloc(userAlbums: sl()));
 
   //User Usecase
   sl.registerLazySingleton(() => GetAllUsers(userRepository: sl()));
   sl.registerLazySingleton(() => GetUserPosts(userRepository: sl()));
+  sl.registerLazySingleton(() => GetUserTodos(userRepository: sl()));
+  sl.registerLazySingleton(() => GetUserAlbums(userRepository: sl()));
 
   //User Repository
   sl.registerLazySingleton<UserRepository>(

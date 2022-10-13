@@ -6,3 +6,8 @@ abstract class UserTodosEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class GetUserTodosEvent extends UserTodosEvent {
+  int id;
+  GetUserTodosEvent({required this.id});
+}

@@ -4,8 +4,10 @@ import 'package:assignment/features/posts/presentation/pages/post_page.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment/injection_container.dart' as di;
 import 'features/posts/presentation/bloc/comments_bloc/comments_bloc.dart';
+import 'features/users/presentation/bloc/user_albums_bloc/user_albums_bloc.dart';
 import 'features/users/presentation/bloc/user_bloc/user_bloc.dart';
 import 'features/users/presentation/bloc/user_posts_bloc/user_posts_bloc.dart';
+import 'features/users/presentation/bloc/user_todos_bloc/user_todos_bloc.dart';
 import 'injection_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,6 +30,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context) => sl<UserBloc>()..add(GetAllUserEvent())),
         BlocProvider(create: (context) => sl<UserPostsBloc>()),
+        BlocProvider(create: (context) => sl<UserTodosBloc>()),
+        BlocProvider(create: (context) => sl<UserAlbumsBloc>()),
       ],
       child: MaterialApp(
         theme: ThemeData(
