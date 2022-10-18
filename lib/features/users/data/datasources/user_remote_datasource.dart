@@ -34,6 +34,7 @@ class UserRemoteDataSourceImp implements UserRemoteDataSource {
       data.forEach((element) {
         users.add(UserModel.fromJson(element));
       });
+      print('From Server');
       return users;
     } else {
       throw ServerException();

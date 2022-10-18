@@ -83,6 +83,8 @@ class _UserTodoState extends State<UserTodo> {
                   ),
                 );
               });
+        } else if (state is UserTodosError) {
+          return Text('${state.message}');
         } else {
           return Text('Hold On!!');
         }
