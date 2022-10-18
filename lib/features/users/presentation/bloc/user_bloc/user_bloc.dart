@@ -28,7 +28,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     emit(UserLoading());
     final failureOrUsers = await getAllUsers.call(NoParams());
     await failureOrUsers.fold(
-        (failure) async => emit(UserError(message: 'Server Failure')),
+        (failure) async => emit(UserError(
+            message:
+                failure is ServerFailure ? 'ServerFailure' : 'CacheFailure')),
         (users) async => emit(UserLoaded(users: users)));
   }
 }

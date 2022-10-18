@@ -21,6 +21,7 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
+import 'features/users/data/datasources/user_local_datasource..dart';
 import 'features/users/domain/usecases/get_user_album.dart';
 import 'features/users/domain/usecases/get_user_todos.dart';
 import 'features/users/presentation/bloc/user_posts_bloc/user_posts_bloc.dart';
@@ -66,12 +67,15 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetUserAlbums(userRepository: sl()));
 
   //User Repository
-  sl.registerLazySingleton<UserRepository>(
-      () => UserRepositoryImpl(userRemoteDataSource: sl(), networkInfo: sl()));
+  sl.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
+      userRemoteDataSource: sl(),
+      userLocalDataSource: sl(),
+      networkInfo: sl()));
 
 //User datasources
   sl.registerLazySingleton<UserRemoteDataSource>(
       () => UserRemoteDataSourceImp(client: sl()));
+  sl.registerLazySingleton<UserLocalDataSource>(() => UserLocalDataSourceImp());
 
   //core
   sl.registerLazySingleton<NetworkInfo>(

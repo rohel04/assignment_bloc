@@ -6,7 +6,6 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 import '../../domain/entities/album.dart';
 
 class UserAlbums extends StatefulWidget {
@@ -59,6 +58,8 @@ class _UserAlbumsState extends State<UserAlbums> {
                 ),
               );
             });
+      } else if (state is UserAlbumsError) {
+        return Text('${state.message}');
       } else {
         return Text('Hold On!!');
       }
